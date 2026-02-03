@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Healthy_Recipes.Models.Recipe>
+
+@{
+    ViewData["Title"] = "Accueil";
+}
+
+@section Head {
+    <link rel="icon" type="image/png" sizes="48x48" href="~/images/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="~/images/apple-touch-icon.png" />
+}
+
+<style>
+    .recipe-card:hover .recipe-image {
+        transform: scale(1.05);
+    }
+    .recipe-image {
+        transition: transform 0.3s ease;
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero bg-green-100 rounded-2xl p-12 mb-12">
+    <div class="max-w-2xl">
+        <h2 class="text-4xl font-bold text-green-800 mb-4">Découvrez des recettes saines et délicieuses</h2>
+        <p class="text-lg text-green-700 mb-6">Transformez votre alimentation avec nos recettes équilibrées, faciles à préparer et pleines de saveurs.</p>
+        <a asp-controller="Recipes" asp-action="Index" class="bg-green-700 text-white px-6 py-3 rounded-full font-medium hover:bg-green-800 transition">
+            Explorer les recettes <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+    </div>
+</section>
+
+<!-- Featured Recipes -->
+<section class="mb-12">
+    <h3 class="text-2xl font-bold text-gray-800 mb-6">Recettes populaires</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var recipe in Model.Take(3))
+            {
+                <div class="recipe-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                    <div class="overflow-hidden h-48">
+                        <img src="@recipe.ImageUrl" alt="@recipe.Title" class="w-full h-full object-cover recipe-image">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="text-xl font-bold text-gray-800">@recipe.Title</h4>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">@recipe.Category</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">@recipe.Description</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-gray-600 ml-2">4.5</span>
+                            </div>
+                            <a asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.Id" class="text-green-700 font-medium hover:underline">
+                                Voir la recette
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-center col-span-3">Aucune recette disponible pour le moment.</p>
+        }
+    </div>
+</section>
+
+<section class="bg-white rounded-xl shadow-md p-8 mb-12">
+    <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-6 md:mb-0 md:pr-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Pourquoi manger sain ?</h3>
+            <p class="text-gray-600 mb-4">Une alimentation équilibrée est essentielle pour maintenir une bonne santé, booster votre énergie et prévenir les maladies.</p>
+            <ul class="space-y-2">
+                <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Améliore l'énergie et la concentration</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Renforce le système immunitaire</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Favorise un poids santé</li>
+                <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Réduit les risques de maladies chroniques</li>
+            </ul>
+        </div>
+        <div class="md:w-1/2">
+            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=880&q=80" 
+                 alt="Alimentation saine" class="w-full rounded-lg">
+        </div>
+    </div>
+</section>

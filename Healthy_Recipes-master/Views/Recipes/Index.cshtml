@@ -1,0 +1,95 @@
+@model Healthy_Recipes.ViewModels.RecipeSearchViewModel
+
+@{
+    ViewData["Title"] = "Recettes";
+}
+
+<style>
+    .recipe-card:hover .recipe-image {
+        transform: scale(1.05);
+    }
+    .recipe-image {
+        transition: transform 0.3s ease;
+    }
+</style>
+
+<section class="mb-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-3xl font-bold text-gray-800">@((!string.IsNullOrEmpty(Model.SearchTerm)) ? "Résultats de la recherche" : "Toutes nos recettes")</h2>
+        <form asp-action="Index" method="get" class="relative w-64">
+            <input type="text" asp-for="SearchTerm" placeholder="Rechercher une recette..." 
+                   class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-green-700 text-white px-3 py-1 rounded-full hover:bg-green-800 transition">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.SearchTerm))
+    {
+        <div class="text-gray-600 mb-6">
+            <p>Recherche pour : "@Model.SearchTerm"</p>
+            <a asp-action="Index" asp-route-searchTerm="" asp-route-category="" class="text-green-700 hover:underline">Annuler la recherche</a>
+        </div>
+    }
+
+    <div class="flex mb-6 space-x-2 overflow-x-auto pb-2">
+        @foreach (var category in Model.Categories)
+        {
+            <a asp-action="Index" 
+               asp-route-category="@category" 
+               asp-route-searchTerm="@Model.SearchTerm"
+               class="px-4 py-2 @((Model.Category == category) ? "bg-green-700 text-white" : "bg-white border border-gray-300") rounded-full text-sm font-medium hover:bg-gray-100">
+                @category
+            </a>
+        }
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        @if (Model != null && Model.Recipes.Any())
+        {
+            @foreach (var recipe in Model.Recipes)
+            {
+                <div class="recipe-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                    <div class="overflow-hidden h-48">
+                        <img src="@recipe.ImageUrl" alt="@recipe.Title" class="w-full h-full object-cover recipe-image">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="text-xl font-bold text-gray-800">@recipe.Title</h4>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">@recipe.Category</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">@recipe.Description</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-gray-600 ml-2">4.5</span>
+                            </div>
+                            <a asp-action="Details" asp-route-id="@recipe.Id" class="text-green-700 font-medium hover:underline">
+                                Voir la recette
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="text-center col-span-3">
+            @if (Model != null && !string.IsNullOrEmpty(Model.SearchTerm))
+            {
+                <p class="text-gray-600 mb-2">Aucune recette trouvée pour "@Model.SearchTerm".</p>
+                <p class="text-sm text-gray-500">Essayez avec un autre terme de recherche.</p>
+            }
+            else
+            {
+                <p class="text-gray-600">Aucune recette disponible.</p>
+            }
+        </div>
+        }
+    </div>
+</section>

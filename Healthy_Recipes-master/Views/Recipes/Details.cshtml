@@ -1,0 +1,74 @@
+@model Healthy_Recipes.ViewModels.RecipeViewModel
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+<button onclick="history.back()" class="mb-6 text-green-700 hover:underline flex items-center">
+    <i class="fas fa-arrow-left mr-2"></i> Retour aux recettes
+</button>
+
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="md:flex">
+        <div class="md:w-1/2">
+            <img src="@Model.ImageUrl" alt="@Model.Title" class="w-full h-full object-cover">
+        </div>
+        <div class="p-8 md:w-1/2">
+            <div class="flex justify-between items-start mb-4">
+                <h2 class="text-3xl font-bold text-gray-800">@Model.Title</h2>
+                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">@Model.Category</span>
+            </div>
+            
+            <div class="flex items-center mb-6">
+                <div class="flex items-center text-yellow-500 mr-4">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span class="text-gray-600 ml-2">4.5 (12 avis)</span>
+                </div>
+                <div class="flex items-center text-gray-600">
+                    <i class="fas fa-clock mr-2"></i>
+                    <span>@Model.PreparationTime min</span>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Description</h3>
+                <p class="text-gray-600">@Model.Description</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Ingrédients</h3>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        @foreach (var ingredient in Model.Ingredients.Split('\n'))
+                        {
+                            <li>@ingredient</li>
+                        }
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Valeurs nutritives</h3>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex justify-between"><span>Calories</span> <span class="font-medium">@Model.Calories kcal</span></li>
+                        <li class="flex justify-between"><span>Protéines</span> <span class="font-medium">@Model.Protein g</span></li>
+                        <li class="flex justify-between"><span>Glucides</span> <span class="font-medium">@Model.Carbohydrates g</span></li>
+                        <li class="flex justify-between"><span>Lipides</span> <span class="font-medium">@Model.Fat g</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Instructions</h3>
+                <ol class="list-decimal pl-5 text-gray-600 space-y-2">
+                    @foreach (var instruction in Model.Instructions.Split('\n'))
+                    {
+                        <li>@instruction</li>
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - HealthyRecipes</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="~/images/favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="~/images/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="~/images/apple-touch-icon.png" />
+    <meta name="theme-color" content="#16a34a" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.chat.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/splash.css" asp-append-version="true" />
+    @RenderSection("Head", required: false)
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Splash screen -->
+    <div id="splash" class="splash-overlay" role="dialog" aria-hidden="false">
+        <div class="splash-inner">
+            <div class="splash-svg">
+                <img src="~/images/logo.png" alt="koolHealthy" class="logo" style="width:140px;height:auto;margin:0 auto;display:block;" />
+            </div>
+            <div class="splash-text">
+                <h1>koolHealthy — Recettes saines, vie équilibrée</h1>
+                <p>Chargement des inspirations culinaires…</p>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar: light background, dark text, 3D buttons, responsive -->
+    <header class="bg-white text-gray-800 shadow-sm sticky top-0 z-40 navbar-shadow">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-3">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="flex items-center gap-3">
+                    <img src="~/images/logo.png" alt="HealthyRecipes" class="h-12 w-12 object-contain rounded-full shadow-sm" />
+                    <span class="text-2xl font-semibold tracking-tight">koolHealthy</span>
+                </a>
+
+                <nav class="hidden md:flex items-center gap-8">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Accueil</a>
+                    <a asp-area="" asp-controller="Recipes" asp-action="Index" class="nav-link">Recettes</a>
+                    <a asp-area="" asp-controller="Home" asp-action="About" class="nav-link">À propos</a>
+                </nav>
+
+                <div class="hidden md:flex items-center gap-4">
+                    <a asp-area="" asp-controller="Account" asp-action="Register" class="btn-3d">Inscription</a>
+                    <a asp-area="" asp-controller="Account" asp-action="Login" class="btn-3d btn-3d-outline">Connexion</a>
+                </div>
+
+                <button id="navToggle" class="md:hidden p-2 rounded-lg focus:outline-none" aria-label="Ouvrir le menu">
+                    <i class="fas fa-bars text-gray-800 text-2xl"></i>
+                </button>
+            </div>
+
+            <div id="mobileMenu" class="md:hidden hidden pb-4">
+                <div class="flex flex-col gap-2">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="mobile-link">Accueil</a>
+                    <a asp-area="" asp-controller="Recipes" asp-action="Index" class="mobile-link">Recettes</a>
+                    <a asp-area="" asp-controller="Home" asp-action="About" class="mobile-link">À propos</a>
+                    <div class="flex gap-3 pt-2">
+                        <a asp-area="" asp-controller="Account" asp-action="Register" class="btn-3d flex-1 text-center">Inscription</a>
+                        <a asp-area="" asp-controller="Account" asp-action="Login" class="btn-3d btn-3d-outline flex-1 text-center">Connexion</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    @await Html.PartialAsync("_AlertsPartial")
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">koolHealthy</h3>
+                    <p class="text-gray-400">Des recettes saines et délicieuses pour une vie équilibrée.</p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Navigation</h3>
+                    <ul class="space-y-2">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="text-gray-400 hover:text-white transition">Accueil</a></li>
+                        <li><a asp-area="" asp-controller="Recipes" asp-action="Index" class="text-gray-400 hover:text-white transition">Recettes</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About" class="text-gray-400 hover:text-white transition">À propos</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li><a asp-area="" asp-controller="Admin" asp-action="Index" class="text-gray-400 hover:text-white transition">Admin</a></li>
+                        }
+                        @if (User.IsInRole("User"))
+                        {
+                            <li><a asp-area="" asp-controller="Account" asp-action="Profile" class="text-gray-400 hover:text-white transition">Profil</a></li>
+                        }
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Catégories</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Végétarien</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Vegan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Sans gluten</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Protéiné</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Abonnez-vous pour recevoir nos nouvelles recettes chaque semaine.</p>
+                    <form asp-controller="Home" asp-action="Subscribe" method="post" class="flex">
+                        <input type="email" name="email" placeholder="Votre email" class="px-4 py-2 rounded-l-lg w-full text-gray-800 focus:outline-none">
+                        <button type="submit" class="bg-green-700 px-4 py-2 rounded-r-lg hover:bg-green-800 transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2025 koolHealthy. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/splash.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/chatbot.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        // Toggle mobile menu
+        (function(){
+            const btn = document.getElementById('navToggle');
+            const menu = document.getElementById('mobileMenu');
+            if(!btn || !menu) return;
+            btn.addEventListener('click', ()=>{
+                menu.classList.toggle('hidden');
+            });
+        })();
+    </script>
+    
+    <!-- Chatbot button + panel -->
+    <div id="chatbot" class="chatbot">
+            <button id="chatbotToggle" class="chatbot-btn" aria-label="Open chat">
+            <img src="~/images/imgchat.png" alt="chat" class="chatbot-icon" />
+        </button>
+        <div id="chatPanel" class="chat-panel" aria-hidden="true">
+            <div class="chat-header">
+                <strong>Assistant</strong>
+                <button id="chatClose" class="chat-close" aria-label="Close">×</button>
+            </div>
+            <div class="chat-body">
+                <div class="chat-placeholder">Bonjour — je peux aider avec les recettes !</div>
+            </div>
+            <div class="chat-footer">
+                <input id="chatInput" type="text" placeholder="Écrire un message..." />
+                <button id="chatSend">Envoyer</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

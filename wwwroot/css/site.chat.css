@@ -1,0 +1,55 @@
+/* Chatbot and navbar animation styles */
+
+/* Navbar link hover animation */
+.nav-animated .nav-item { position: relative; }
+.nav-animated .nav-link {
+  position: relative;
+  padding: .25rem .5rem;
+  color: white;
+  transition: color .25s ease;
+}
+.nav-animated .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  bottom: -6px;
+  height: 3px;
+  width: 60%;
+  background: rgba(255,255,255,0.85);
+  border-radius: 2px;
+  transition: transform .28s cubic-bezier(.2,.8,.2,1);
+  transform-origin: center;
+}
+.nav-animated .nav-link:hover::after,
+.nav-animated .nav-link:focus::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* Chatbot button */
+.chatbot { position: fixed; right: 20px; bottom: 24px; z-index: 60; }
+.chatbot-btn {
+  width: 88px; height: 88px; border-radius: 9999px; border: none; display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg,#2f855a,#38b000); box-shadow: 0 10px 26px rgba(45, 212, 191, 0.18); cursor:pointer; transition: transform .14s ease, box-shadow .14s ease;
+}
+.chatbot-btn:active { transform: scale(.98); }
+.chatbot-icon { width: 56px; height: 56px; object-fit:contain; }
+
+/* Chat panel */
+.chat-panel {
+  width: 320px; max-width: calc(100vw - 48px); height: 420px; background: white; border-radius: 12px; box-shadow: 0 20px 40px rgba(2,6,23,0.2);
+  overflow: hidden; margin-bottom: 12px; display: none; flex-direction: column; border: 1px solid rgba(0,0,0,0.06);
+}
+.chat-panel.open { display: flex; }
+.chat-header { padding: 12px 14px; background: linear-gradient(90deg,#16a34a,#059669); color: #fff; display:flex; justify-content:space-between; align-items:center; font-weight:600; }
+.chat-body { padding: 12px; flex:1; overflow:auto; background:#fafafa; }
+.chat-placeholder { color:#334155; }
+.chat-footer { padding:10px; display:flex; gap:8px; border-top:1px solid #eee; }
+.chat-footer input { flex:1; padding:8px 10px; border-radius:8px; border:1px solid #e6e6e6; }
+.chat-footer button { padding:8px 12px; background:#16a34a; color:#fff; border:none; border-radius:8px; cursor:pointer; }
+
+/* small screens tweak */
+@media (max-width: 640px) {
+  .chat-panel { width: 92vw; right: 8px; left: 8px; }
+  .chatbot { right: 12px; bottom: 12px; }
+}

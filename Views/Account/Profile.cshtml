@@ -1,0 +1,38 @@
+@using Microsoft.AspNetCore.Identity
+@model Microsoft.AspNetCore.Identity.IdentityUser
+
+@{
+    ViewData["Title"] = "Profil";
+}
+
+@section Head {
+    <link rel="icon" type="image/png" sizes="48x48" href="~/images/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="~/images/apple-touch-icon.png" />
+}
+
+@if (Model != null)
+{
+    <div class="bg-white rounded-xl shadow-md p-8 max-w-2xl mx-auto">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Votre profil</h2>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
+                <p class="text-gray-800">@User.Identity?.Name</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Email</label>
+                <p class="text-gray-800">@Model.Email</p>
+            </div>
+            <div>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="text-green-700 hover:underline">Modifier le profil</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="bg-white rounded-xl shadow-md p-8 max-w-2xl mx-auto">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Votre profil</h2>
+        <p class="text-red-600">Impossible de charger les informations du profil.</p>
+    </div>
+}

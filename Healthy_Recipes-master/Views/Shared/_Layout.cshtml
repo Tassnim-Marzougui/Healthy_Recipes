@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - KoolHealthy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-green-700 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-utensils text-2xl"></i>
+                    <h1 class="text-2xl font-bold">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">KoolHealthy</a>
+                    </h1>
+                </div>
+                <nav>
+                    <ul class="flex space-x-6 items-center">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="hover:text-green-200 transition">Accueil</a></li>
+                        <li><a asp-area="" asp-controller="Recipes" asp-action="Index" class="hover:text-green-200 transition">Recettes</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About" class="hover:text-green-200 transition">À propos</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li><a asp-area="" asp-controller="Admin" asp-action="Index" class="hover:text-green-200 transition">Admin</a></li>
+                        }
+                        @if (User.IsInRole("User"))
+                        {
+                            <li><a asp-area="" asp-controller="Account" asp-action="Profile" class="hover:text-green-200 transition">Profil</a></li>
+                        }
+                        <partial name="_LoginPartial" />
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    @await Html.PartialAsync("_AlertsPartial")
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">HealthyRecipes</h3>
+                    <p class="text-gray-400">Des recettes saines et délicieuses pour une vie équilibrée.</p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Navigation</h3>
+                    <ul class="space-y-2">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index" class="text-gray-400 hover:text-white transition">Accueil</a></li>
+                        <li><a asp-area="" asp-controller="Recipes" asp-action="Index" class="text-gray-400 hover:text-white transition">Recettes</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About" class="text-gray-400 hover:text-white transition">À propos</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li><a asp-area="" asp-controller="Admin" asp-action="Index" class="text-gray-400 hover:text-white transition">Admin</a></li>
+                        }
+                        @if (User.IsInRole("User"))
+                        {
+                            <li><a asp-area="" asp-controller="Account" asp-action="Profile" class="text-gray-400 hover:text-white transition">Profil</a></li>
+                        }
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Catégories</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Végétarien</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Vegan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Sans gluten</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Protéiné</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Abonnez-vous pour recevoir nos nouvelles recettes chaque semaine.</p>
+                    <form asp-controller="Home" asp-action="Subscribe" method="post" class="flex">
+                        <input type="email" name="email" placeholder="Votre email" class="px-4 py-2 rounded-l-lg w-full text-gray-800 focus:outline-none">
+                        <button type="submit" class="bg-green-700 px-4 py-2 rounded-r-lg hover:bg-green-800 transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2025 KoolHealthy. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

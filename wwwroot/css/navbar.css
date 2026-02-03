@@ -1,0 +1,92 @@
+/* Navbar 3D styles for HealthyRecipes */
+:root{
+  --primary:#16a34a; /* green */
+  --primary-dark:#0f8a36;
+  --text:#1f2937;
+  --muted:#6b7280;
+}
+
+/* slight shadow under navbar */
+.navbar-shadow{
+  box-shadow: 0 6px 18px rgba(31,41,55,0.06);
+}
+
+/* nav links */
+.nav-link{
+  color:var(--text);
+  font-weight:600;
+  padding:0.55rem 0.6rem;
+  border-radius:0.5rem;
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  display:inline-block;
+  box-shadow: 0 6px 12px rgba(29,78,52,0.06);
+  transform: translateY(0);
+}
+.nav-link:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(29,78,52,0.12);
+  background-color: rgba(22,163,74,0.04);
+}
+
+/* mobile link styling */
+.mobile-link{
+  color:var(--text);
+  padding:0.7rem 0.75rem;
+  border-radius:0.5rem;
+  background:transparent;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+.mobile-link:hover{ background-color: rgba(15,138,54,0.04); transform: translateY(-4px); }
+
+/* 3D buttons */
+.btn-3d{
+  --btn-bg: linear-gradient(180deg,var(--primary) 0%, var(--primary-dark) 100%);
+  background: var(--btn-bg);
+  color: white;
+  padding: 0.55rem 0.9rem;
+  border-radius: 0.75rem;
+  font-weight:700;
+  box-shadow: 0 10px 18px rgba(16,185,129,0.18), 0 3px 6px rgba(0,0,0,0.06) inset;
+  transform: translateY(0);
+  transition: transform 200ms cubic-bezier(.2,.9,.2,1), box-shadow 200ms ease, filter 160ms ease;
+  display:inline-block;
+  text-decoration:none;
+}
+.btn-3d:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(16,185,129,0.20), 0 6px 12px rgba(0,0,0,0.08) inset;
+}
+.btn-3d:active{ transform: translateY(-2px); }
+
+/* outline variant */
+.btn-3d.btn-3d-outline{
+  background: white;
+  color: var(--primary-dark);
+  border: 2px solid rgba(16,185,129,0.12);
+  box-shadow: 0 8px 18px rgba(15,23,42,0.04);
+}
+.btn-3d.btn-3d-outline:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 18px 34px rgba(15,23,42,0.08);
+  filter:brightness(1.02);
+}
+
+/* small screens: full-width buttons */
+@media (max-width: 767px){
+  .btn-3d{ width:100%; padding:0.6rem; }
+  .btn-3d.btn-3d-outline{ width:100%; }
+}
+
+/* subtle 3D effect for logo */
+.header-logo{
+  transform-style:preserve-3d;
+}
+
+/* accessibility focus states */
+.nav-link:focus, .btn-3d:focus, .mobile-link:focus{
+  outline: 3px solid rgba(22,163,74,0.18);
+  outline-offset: 3px;
+}
+
+/* smooth transitions for all interactive elements */
+.nav-link, .btn-3d, .mobile-link{ will-change: transform, box-shadow; }

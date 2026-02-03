@@ -1,0 +1,43 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Healthy_Recipes.Models.Users> SignInManager
+@inject UserManager<Healthy_Recipes.Models.Users> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Manage" title="Manage">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                var user = await UserManager.GetUserAsync(User);
+                if (user?.FullName != null)
+                {
+                    <text>Bonjour, @user.FullName !</text>
+                }
+                else
+                {
+                    <text>Bonjour, Utilisateur !</text>
+                }
+            }
+            else
+            {
+                <text>Bonjour, Utilisateur !</text>
+            }
+        </a>
+    </li>
+    <li class="nav-item">
+        <form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="nav-link btn btn-link text-dark">Déconnexion</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Inscription</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Connexion</a>
+    </li>
+}
+</ul>
